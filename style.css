@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+.title {
+    width: 40%;
+    margin-top: 30px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+}
+
+#title {
+    font-size: 70px;
+    font-weight: 600;
+}
+
+#subtitle {
+    margin-top: 15px;
+    font-size: 20px;
+    text-align: center;
+}
+
+.main {
+    width: 80%;
+    margin-top: 60px;
+    height: 630px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    box-shadow: 5px 10px 10px black;
+    z-index: 1;
+}  
+
+.row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    width: 80%;
+    height: 150px;
+}
+
+.card {
+    height: 150px;
+    width: 130px;
+    background-color: red;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    border: 3px solid black;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.item {
+    width: 50px;
+    display: flex;
+    visibility: visible;
+}
+
+.circle {
+    height: 300px;
+    width: 300px;
+    border-radius: 300px 0 0 0;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    background: rgb(58,162,180);
+    background: linear-gradient(90deg, rgba(58,162,180,1) 0%, rgba(35,253,29,1) 50%, rgba(249,252,69,1) 100%);
+    display: none;
+}
+
+.screen {
+    width: 130px;
+    height: 150px;
+    z-index: 1;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    border-radius: 15px;
+    cursor: pointer;
+    position: absolute;
+    background-color: transparent;
+}
