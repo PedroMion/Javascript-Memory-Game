@@ -7,15 +7,25 @@ let game = {
     "index1": undefined,
     "index2": undefined,
     "pairsMatched": 0,
-    "turned": false
+    "turned": false,
+    "strikes": 0,
+    "cadsArray": [false, false, false, false, false, false, false, false, false, false, false, false]
+}
+
+const currentGame = () => {
+    
 }
 
 const setBoard = () => {
     let random;
     let options = [...source];
+    if(localStorage.getItem("currentgame")) {
+        currentGame();
+    }
     for(let i = 0; i<source.length; i++) {
         random = Math.floor(Math.random()*options.length);
         images[i].src = options[random];
+        localStorage.setItem('index'+i, options[random])
         options.splice(random, 1);
     }
 }
@@ -25,8 +35,7 @@ const isPair = (index1, index2) => {
 }
 
 const gameOver = () => {
-    if(game.pairsMatched === 5) return true;
-    game.pairsMatched++;
+    if(game.pairsMatched === 6 || game.strikes === 3) return true;
     return false;
 }
 
@@ -34,9 +43,22 @@ const pairHandler = () => {
         if(isPair(game.index1, game.index2)) {
             game.index1 = undefined;
             game.index2 = undefined;
-            if(gameOver()) alert('Você ganhou!');
+            game.cadsArray[game.index1] = true;
+            game.cadsArray[game.index2] = true;
+            game.pairsMatched++;
+            setTimeout(()=> {if(gameOver()) alert('Você ganhou!');}, 100);
         }
         else {
+            if(game.cadsArray[game.index1] === true || game.cadsArray[game.index2] === true) {
+                game.strikes++;
+                if(gameOver()) {
+                    setTimeout(() => {alert('Você perdeu :\(')}, 500);
+                }
+            } else {
+                game.cadsArray[game.index1] = true;
+                game.cadsArray[game.index2] = true;
+            }
+            2
             setTimeout(() => {
                 classes[game.index1].addEventListener("click", turnCard);
                 classes[game.index2].addEventListener("click", turnCard);
@@ -44,7 +66,7 @@ const pairHandler = () => {
                 images[game.index2].style.visibility = "hidden";
                 game.index1 = undefined;
                 game.index2 = undefined;
-            }, 1000);
+            }, 500);
         }
 }
 
@@ -67,3 +89,4 @@ for (let i = 0; i < classes.length; i++) {
 }
 
 setBoard();
+localStorage.clear();
