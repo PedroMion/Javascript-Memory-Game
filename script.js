@@ -9,11 +9,27 @@ let game = {
     "pairsMatched": 0,
     "turned": false,
     "strikes": 0,
-    "cadsArray": [false, false, false, false, false, false, false, false, false, false, false, false]
+    "cardsArray": [false, false, false, false, false, false, false, false, false, false, false, false]
 }
 
 const currentGame = () => {
-    
+    for(let i = 0; i < images.length; i++){
+        images[i].src = localStorage.getItem('index'+i);
+        if(localStorage.getItem("turned"+i)) game.cardsArray[i] = true;
+        if(localStorage.getItem("matched"+i)) {
+            images[i].style.visibility = "visible";
+            classes[i].removeEventListener("click", turnCard);
+        }
+    }
+    if(localStorage.getItem("game.index1")) {
+        game.index1 = Number(localStorage.getItem("game.index1"));
+        images[game.index1].style.visibility = "visible";
+        classes[game.index1].removeEventListener("click", turnCard);
+    }
+    game.pairsMatched = Number(localStorage.getItem("game.pairsMatched"));
+    game.strikes = Number(localStorage.getItem("game.strikes"));
+    game.turned = Boolean(localStorage.getItem("game.turned"));
+
 }
 
 const setBoard = () => {
@@ -22,11 +38,14 @@ const setBoard = () => {
     if(localStorage.getItem("currentgame")) {
         currentGame();
     }
-    for(let i = 0; i<source.length; i++) {
-        random = Math.floor(Math.random()*options.length);
-        images[i].src = options[random];
-        localStorage.setItem('index'+i, options[random])
-        options.splice(random, 1);
+    else {
+        for(let i = 0; i<source.length; i++) {
+            random = Math.floor(Math.random()*options.length);
+            images[i].src = options[random];
+            localStorage.setItem('index'+i, options[random])
+            options.splice(random, 1);
+        }
+        localStorage.setItem("currentgame", "true");
     }
 }
 
@@ -40,25 +59,37 @@ const gameOver = () => {
 }
 
 const pairHandler = () => {
+        console.log('cheguei aqui');
         if(isPair(game.index1, game.index2)) {
+            localStorage.setItem("matched"+game.index1, "true");
+            localStorage.setItem("matched"+game.index2, "true");
             game.index1 = undefined;
             game.index2 = undefined;
-            game.cadsArray[game.index1] = true;
-            game.cadsArray[game.index2] = true;
+            localStorage.removeItem("game.index1");
+            game.cardsArray[game.index1] = true;
+            game.cardsArray[game.index2] = true;
+            localStorage.setItem("turned"+game.index1, "true");
+            localStorage.setItem("turned"+game.index2, "true");
             game.pairsMatched++;
-            setTimeout(()=> {if(gameOver()) alert('Você ganhou!');}, 100);
+            localStorage.setItem("game.pairsMatched", game.pairsMatched);
+            setTimeout(()=> {if(gameOver()) {
+                alert('Você ganhou!');
+                localStorage.clear();
+            }}, 100);
         }
         else {
-            if(game.cadsArray[game.index1] === true || game.cadsArray[game.index2] === true) {
+            if(game.cardsArray[game.index1] === true || game.cardsArray[game.index2] === true) {
                 game.strikes++;
+                localStorage.setItem("game.strikes", game.strikes);
                 if(gameOver()) {
                     setTimeout(() => {alert('Você perdeu :\(')}, 500);
                 }
             } else {
-                game.cadsArray[game.index1] = true;
-                game.cadsArray[game.index2] = true;
+                game.cardsArray[game.index1] = true;
+                game.cardsArray[game.index2] = true;
+                localStorage.setItem("turned"+game.index1, "true");
+                localStorage.setItem("turned"+game.index2, "true");
             }
-            2
             setTimeout(() => {
                 classes[game.index1].addEventListener("click", turnCard);
                 classes[game.index2].addEventListener("click", turnCard);
@@ -66,6 +97,8 @@ const pairHandler = () => {
                 images[game.index2].style.visibility = "hidden";
                 game.index1 = undefined;
                 game.index2 = undefined;
+                localStorage.removeItem("game.index1");
+                console.log('cheguei aqui');
             }, 500);
         }
 }
@@ -76,8 +109,12 @@ const turnCard = (evt) => {
     if(game.turned === false) {
         game.index1 = evt.target.imgindex;
         game.turned = true;
+        localStorage.setItem("game.index1", game.index1);
+        localStorage.setItem("game.turned", "true");
     } else if(game.turned === true) {
         game.turned = false;
+        localStorage.setItem("game.turned", "");
+        localStorage.removeItem("game.index1");
         game.index2 = evt.target.imgindex;
         pairHandler();
     }
@@ -89,4 +126,3 @@ for (let i = 0; i < classes.length; i++) {
 }
 
 setBoard();
-localStorage.clear();
