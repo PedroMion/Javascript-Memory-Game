@@ -76,18 +76,6 @@
     visibility: hidden;
 }
 
-.circle {
-    height: 300px;
-    width: 300px;
-    border-radius: 300px 0 0 0;
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    background: rgb(58,162,180);
-    background: linear-gradient(90deg, rgba(58,162,180,1) 0%, rgba(35,253,29,1) 50%, rgba(249,252,69,1) 100%);
-    display: none;
-}
-
 .screen {
     width: 130px;
     height: 150px;
@@ -100,4 +88,73 @@
     cursor: pointer;
     position: absolute;
     background-color: transparent;
+}
+
+.modal {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 70vw;
+    height: 70vh;
+    border-radius: 25px;
+    background-color: gray;
+    margin-top: 15vh;
+    z-index: 1;
+    visibility: hidden;
+}
+
+#close-button {
+    top: 0px;
+    right: 0.5rem;
+    position: absolute;
+    font-size: 1.5rem;
+    text-decoration: none;
+    cursor: pointer;
+    color: red;
+}
+
+#close-button:hover {
+    transform: scale(1.05);
+    transition: 0.5s ease;
+    color: #010101;
+}
+
+.textarea {
+    width: 70%;
+    height: 15rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#main-text {
+    font-size: 3.2rem;
+    font-weight: 500;
+}
+
+#secondary-text {
+    font-size: 2rem;
+}
+
+.button {
+    border: 2px solid #010101;
+    border-radius: 1.5rem;
+    height: 3rem;
+    width: 6rem;
+    text-decoration: none;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    display: flex;
+    color: #010101;
+}
+
+.button:hover {
+    transform: scale(1.05);
+    transition: 1s ease;
+    background-color: #010101;
+    color: #FFFFFF;
 }

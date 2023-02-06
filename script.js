@@ -1,5 +1,8 @@
 const classes = document.getElementsByClassName('screen');
 const images = document.getElementsByClassName('item');
+const buttons = document.getElementsByClassName('button');
+const texts = document.getElementsByClassName('text');
+const modal = document.querySelector('.modal');
 
 const source = ["/img/banana.png", "/img/banana.png", "/img/pineapple.png", "/img/pineapple.png", "/img/lemon.png", "/img/lemon.png", "/img/kiwi.png", "/img/kiwi.png", "/img/pear.png", "/img/pear.png", "/img/apple.png", "/img/apple.png"];
 
@@ -10,6 +13,18 @@ let game = {
     "turned": false,
     "strikes": 0,
     "cardsArray": [false, false, false, false, false, false, false, false, false, false, false, false]
+}
+
+const restartGame = (evt) => {
+    modal.style.visibility = "hidden";
+    evt.preventDefault();
+    localStorage.clear();
+    location.reload();
+}
+const setRestart = () => {
+    for(let but of buttons) {
+        but.addEventListener("click", restartGame);
+    }
 }
 
 const currentGame = () => {
@@ -30,6 +45,15 @@ const currentGame = () => {
     game.strikes = Number(localStorage.getItem("game.strikes"));
     game.turned = Boolean(localStorage.getItem("game.turned"));
 
+}
+
+const endGame = (winner) => {
+    if(winner) {
+        texts[0].textContent = "You won! Congratulations :\)";
+    } else {
+        texts[0].textContent = "You lose! Try again :(";
+    }
+    modal.style.visibility = "visible";
 }
 
 const setBoard = () => {
@@ -59,7 +83,6 @@ const gameOver = () => {
 }
 
 const pairHandler = () => {
-        console.log('cheguei aqui');
         if(isPair(game.index1, game.index2)) {
             localStorage.setItem("matched"+game.index1, "true");
             localStorage.setItem("matched"+game.index2, "true");
@@ -73,8 +96,7 @@ const pairHandler = () => {
             game.pairsMatched++;
             localStorage.setItem("game.pairsMatched", game.pairsMatched);
             setTimeout(()=> {if(gameOver()) {
-                alert('Você ganhou!');
-                localStorage.clear();
+                endGame(true);
             }}, 100);
         }
         else {
@@ -82,7 +104,7 @@ const pairHandler = () => {
                 game.strikes++;
                 localStorage.setItem("game.strikes", game.strikes);
                 if(gameOver()) {
-                    setTimeout(() => {alert('Você perdeu :\(')}, 500);
+                    setTimeout(() => {endGame(false)}, 500);
                 }
             } else {
                 game.cardsArray[game.index1] = true;
@@ -98,7 +120,6 @@ const pairHandler = () => {
                 game.index1 = undefined;
                 game.index2 = undefined;
                 localStorage.removeItem("game.index1");
-                console.log('cheguei aqui');
             }, 500);
         }
 }
@@ -126,3 +147,4 @@ for (let i = 0; i < classes.length; i++) {
 }
 
 setBoard();
+setRestart();
