@@ -60,7 +60,7 @@
 .card {
     height: 150px;
     width: 130px;
-    background-color: red;
+    background-color: #FFF0FF;
     text-align: center;
     align-items: center;
     justify-content: center;
@@ -99,7 +99,7 @@
     width: 70vw;
     height: 70vh;
     border-radius: 25px;
-    background-color: gray;
+    background-color: #D3D3D3;
     margin-top: 15vh;
     z-index: 1;
     visibility: hidden;
@@ -137,6 +137,7 @@
 
 #secondary-text {
     font-size: 2rem;
+    white-space: pre-line
 }
 
 .button {

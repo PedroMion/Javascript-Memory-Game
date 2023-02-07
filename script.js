@@ -21,13 +21,28 @@ const restartGame = (evt) => {
     localStorage.clear();
     location.reload();
 }
+
 const setRestart = () => {
     for(let but of buttons) {
         but.addEventListener("click", restartGame);
     }
 }
 
+const endGame = (winner) => {
+    if(winner) {
+        texts[0].textContent = "You won! Congratulations :\)";
+        texts[1].textContent = "To play again, click on the restart button below\nYou made " + game.strikes + " mistakes";
+    } else {
+        texts[0].textContent = "You lose! Try again :(";
+        texts[1].textContent = "To play again, click on the restart button below\nYou made " + game.strikes + " mistakes";
+    }
+    modal.style.visibility = "visible";
+}
+
 const currentGame = () => {
+    if(localStorage.getItem("game.strikes") == 3) {
+        endGame(false);
+    }
     for(let i = 0; i < images.length; i++){
         images[i].src = localStorage.getItem('index'+i);
         if(localStorage.getItem("turned"+i)) game.cardsArray[i] = true;
@@ -45,15 +60,6 @@ const currentGame = () => {
     game.strikes = Number(localStorage.getItem("game.strikes"));
     game.turned = Boolean(localStorage.getItem("game.turned"));
 
-}
-
-const endGame = (winner) => {
-    if(winner) {
-        texts[0].textContent = "You won! Congratulations :\)";
-    } else {
-        texts[0].textContent = "You lose! Try again :(";
-    }
-    modal.style.visibility = "visible";
 }
 
 const setBoard = () => {
